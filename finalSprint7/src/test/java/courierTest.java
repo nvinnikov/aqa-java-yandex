@@ -1,3 +1,4 @@
+import com.google.gson.Gson;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.Before;
@@ -5,6 +6,7 @@ import org.junit.Test;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.isA;
 
 public class courierTest {
     @Before
@@ -29,11 +31,38 @@ public class courierTest {
 
         System.out.println(response.body().asString());
 
+        CourierLogin courierLogin = new CourierLogin("nikitanikita", "nikita");
+
+        Response responseLogin = given()
+                .header("Content-type", "application/json")
+                .and()
+                .body(courierLogin)
+                .when()
+                .post("/api/v1/courier/login");
+
+        responseLogin.then().assertThat().body("id", isA(Integer.class))
+                .and()
+                .statusCode(200);
+
+        String IdString = responseLogin.body().asString();
+        Gson gson = new Gson();
+        CourierDelete id = gson.fromJson(IdString, CourierDelete.class);
+
+
+        Response responseDelete = given()
+                .header("Content-type", "application/json")
+                .when()
+                .delete(String.format("/api/v1/courier/%s", id.getId()));
+
+        responseDelete.then().assertThat().body("ok", equalTo(true))
+                .and()
+                .statusCode(200);
+
     }
 
     @Test
     public void checkCourierDoubleResponseBodyTest() {
-        Courier courier = new Courier("nikitanikita1", "nikita", "Nikita1");
+        Courier courier = new Courier("nikitanikita", "nikita", "Nikita1");
 
         Response response1 = given()
                 .header("Content-type", "application/json")
@@ -41,6 +70,10 @@ public class courierTest {
                 .body(courier)
                 .when()
                 .post("/api/v1/courier");
+
+        response1.then().assertThat().body("ok", equalTo(true))
+                .and()
+                .statusCode(201);
 
         Response response2 = given()
                 .header("Content-type", "application/json")
@@ -59,7 +92,7 @@ public class courierTest {
 
     @Test
     public void checkCourierResponseWithoutFieldBodyTest() {
-        CourierWithoutPassword courierWithoutPassword = new CourierWithoutPassword("nikitanikita3d21nikita", "Nikita");
+        CourierWithoutPassword courierWithoutPassword = new CourierWithoutPassword("nikitanikita", "Nikita");
 
         Response response = given()
                 .header("Content-type", "application/json")
