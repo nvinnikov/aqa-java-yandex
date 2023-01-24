@@ -5,11 +5,11 @@ import praktikum.IngredientType;
 
 public class IngredientTest {
     private IngredientType ingredientType;
-
+    private final static double DELTA = 0.01;
     @Test
     public void getPriceTest() {
         Ingredient ingredient = new Ingredient(ingredientType, "qwe", (float) 2.2);
-        Assert.assertEquals((float) 2.2, ingredient.getPrice(), 0.01);
+        Assert.assertEquals((float) 2.2, ingredient.getPrice(), DELTA);
     }
 
     @Test

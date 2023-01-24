@@ -8,6 +8,7 @@ import praktikum.Bun;
 public class BunTest {
     private final String name;
     private final float price;
+    private final static double DELTA = 0.01;
 
     public BunTest(String name, float price) {
         this.name = name;
@@ -31,6 +32,6 @@ public class BunTest {
     @Test
     public void getPriceTest() {
         Bun bun = new Bun(name, price);
-        Assert.assertEquals(price, bun.getPrice(), 0.01);
+        Assert.assertEquals(price, bun.getPrice(), DELTA);
     }
 }

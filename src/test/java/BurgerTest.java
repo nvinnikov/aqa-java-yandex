@@ -1,6 +1,7 @@
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import praktikum.Bun;
 import praktikum.Burger;
@@ -12,6 +13,10 @@ import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BurgerTest {
+    private final static double DELTA = 0.01;
+
+    @Mock
+    List<Ingredient> ingredients = new ArrayList<>();
 
     @Test
     public void setBunsTest() {
@@ -25,7 +30,6 @@ public class BurgerTest {
     public void addIngredientTest() {
         Burger burger = new Burger();
         Ingredient ingredient = new Ingredient(IngredientType.SAUCE, "Лук", (float) 20.0);
-        List<Ingredient> ingredients = new ArrayList<>();
         ingredients.add(ingredient);
         burger.addIngredient(ingredient);
         Assert.assertEquals(ingredients, burger.ingredients);
@@ -35,7 +39,6 @@ public class BurgerTest {
     public void removeIngredientTest() {
         Burger burger = new Burger();
         Ingredient ingredient = new Ingredient(IngredientType.SAUCE, "Лук", (float) 20.0);
-        List<Ingredient> ingredients = new ArrayList<>();
         burger.addIngredient(ingredient);
         burger.removeIngredient(0);
         Assert.assertEquals(ingredients, burger.ingredients);
@@ -46,7 +49,6 @@ public class BurgerTest {
         Burger burger = new Burger();
         Ingredient ingredient0 = new Ingredient(IngredientType.SAUCE, "Лук", (float) 20.0);
         Ingredient ingredient1 = new Ingredient(IngredientType.FILLING, "Помидор", (float) 50.0);
-        List<Ingredient> ingredients = new ArrayList<>();
         ingredients.add(ingredient1);
         ingredients.add(ingredient0);
         burger.addIngredient(ingredient0);
@@ -62,7 +64,7 @@ public class BurgerTest {
         burger.setBuns(bun);
         Ingredient ingredient = new Ingredient(IngredientType.SAUCE, "Лук", (float) 20.0);
         burger.addIngredient(ingredient);
-        Assert.assertEquals((float) 242.4, burger.getPrice(), 0.01);
+        Assert.assertEquals((float) 242.4, burger.getPrice(), DELTA);
     }
 
     @Test
@@ -71,7 +73,6 @@ public class BurgerTest {
         Bun bun = new Bun("СмолТести", (float) 111.2);
         burger.setBuns(bun);
         Ingredient ingredient = new Ingredient(IngredientType.SAUCE, "Лук", (float) 20.0);
-        List<Ingredient> ingredients = new ArrayList<>();
         ingredients.add(ingredient);
         burger.addIngredient(ingredient);
         StringBuilder receipt = new StringBuilder(String.format("(==== %s ====)%n", bun.getName()));
