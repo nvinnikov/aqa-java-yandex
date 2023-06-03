@@ -1,0 +1,9 @@
+[submodule "QA-java-diplom-1"]
+	path = QA-java-diplom-1
+	url = https://github.com/nvinnikov/QA-java-diplom-1.git
+[submodule "QA-java-diplom-2"]
+	path = QA-java-diplom-2
+	url = https://github.com/nvinnikov/QA-java-diplom-2.git
+[submodule "QA-java-diplom-3"]
+	path = QA-java-diplom-3
+	url = https://github.com/nvinnikov/QA-java-diplom-3.git
